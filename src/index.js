@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyparser = require('body-parser')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 require('dotenv').config()
 
 //importamos las rutas
@@ -25,6 +26,10 @@ const port = process.env.PORT || 8000
 mongoose.set('strictQuery', true)
 
 //middleware
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/uploads'
+}));
 app.use(cors())
 app.use(bodyparser.urlencoded({extended: false}))
 app.use(bodyparser.json())
@@ -34,12 +39,14 @@ app.use('/api', userRouter)
 app.use('/api', blogRoutes)
 app.use('/api', contactoRoutes)
 app.use('/api', portafolioRoutes)
+
 app.use('/api', resumenRoutes)
 app.use('/api', educacionRoutes)
 app.use('/api', experienciaRoutes)
 app.use('/api', servicioRoutes)
 app.use('/api', tecnologiaRoutes)
 app.use('/api', testimonioRoutes)
+
 app.use('/api', principalRoutes)
 app.use('/api', redeRoutes)
 
